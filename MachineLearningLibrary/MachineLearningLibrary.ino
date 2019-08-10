@@ -56,28 +56,24 @@ import java.util.Collections;
 
 // }
 
-int noOfSnakes = 10;
-int noOfFoods =30;
-int fr = 100;
-int frchange = 1;
+int noOfSnakes = 20;
+int noOfFoods = 30;
 
 ArrayList<snake> snakes = new ArrayList<snake>();
 ArrayList<snake> savedSnakes = new ArrayList<snake>();
 ArrayList<food> foods = new ArrayList<food>();
 
+
+
+
 void setup(){
   newGeneration();
   size(600,400);
-  frameRate(fr);
+  frameRate(50);
 }
-
-//
-void keyPressed(){
-  fr-= frchange;
-}
-
 void draw(){
-  frameRate(fr);
+  
+  
   background(0);
   showFoods();
   showSnakes();
@@ -121,7 +117,7 @@ void checkEatenFood(){
   for(int i = 0;i < snakes.size();i++){
     for(int j = 0;j < foods.size();j++){
       if(sqrt((snakes.get(i).x + 15*0.5 - foods.get(j).x + 10*0.5)*(snakes.get(i).x + 15*0.5 - foods.get(j).x + 10*0.5)
-       + (snakes.get(i).y  + 15*0.5 - foods.get(j).y + 10*0.5)*(snakes.get(i).y  + 15*0.5 - foods.get(j).y)) < 15){
+       + (snakes.get(i).y  + 15*0.5 - foods.get(j).y + 10*0.5)*(snakes.get(i).y  + 15*0.5 - foods.get(j).y)) < 15 + 10*0.5){
         
         if(!foodRemInd.contains(j)){ 
           foodRemInd.add(j);
@@ -140,7 +136,7 @@ void checkEatenFood(){
   }
   for(int i =0;i < toAddPartSnakes.size();i++){
     int k = toAddPartSnakes.get(i);
-    snakes.get(k).health += 100;
+    snakes.get(k).health += 10;
 
     snakes.get(k).addAtBack();
   }
@@ -177,16 +173,15 @@ void newGeneration(int x){
   // b.debugPrint();
   //end test
 
-  //b = b.mutate();
-  
+  b = b.mutate();
   //b.mutate(2);
 
   //begin test
   // println("Best snake weights after mutation : ");
   // b.debugPrint();
-  //end te  
+  //end test
   for(int i = 0;i < noOfSnakes;i++){
-    snakes.add(new snake(b.mutate()));
+    snakes.add(new snake(b));
   }
   foods = new ArrayList<food>();
   for(int i = 0;i < noOfFoods;i++){
@@ -204,6 +199,4 @@ void newGeneration(){
   for(int i = 0;i < noOfFoods;i++){
     foods.add(new food());
   }
-}void mouseClicked(){
-  foods.add(new food(mouseX,mouseY));
 }

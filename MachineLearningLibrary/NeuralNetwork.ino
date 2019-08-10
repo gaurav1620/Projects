@@ -62,14 +62,8 @@ class NeuralNetwork {
     //Matrix bef = Wih;
     //Wih.display();
     //&
-    //println("\n\nPrevious : \n");
-    //debugPrint();
-    //println("\n\n");
     Wih = Wih.mutate();
     Who = Who.mutate();
-    //println("\n\nAfter mutation : \n");
-    //debugPrint();
-    //println("\n\n");
     //*
     //Wih.display();
     //Matrix after = Wih;
@@ -79,8 +73,8 @@ class NeuralNetwork {
     return this;
   }
   void mutate(int c) {
-    Wih = Wih.mutate();
-    Who = Who.mutate();
+    Wih.mutate();
+    Who.mutate();
     
   }
 

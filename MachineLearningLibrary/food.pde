@@ -5,6 +5,11 @@ class food{
     y = random(height -10);
     //show();
   }
+  food(int p,int q){
+    x = p;
+    y = q;
+    //show();
+  }
   
   void show(){
     fill(0,200,0);

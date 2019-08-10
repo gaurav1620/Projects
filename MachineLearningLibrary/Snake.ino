@@ -7,8 +7,8 @@ class snake {
   float velY = 0;
 
   int len = 0;
-  int health = 100; //50
-  int fitness = 200; //100
+  int health = 40;
+  int fitness = 100;
   
   ArrayList<part> b = new ArrayList<part>();
   
@@ -114,34 +114,58 @@ class snake {
 
   void doPredictedMovement(ArrayList<food> f){
     food fi = calculateClosestFood(f);
-  
-    //brain.inputs.matrix[0][0] = (x - fi.x)/width;
-    //brain.inputs.matrix[1][0] = (y - fi.y)/height;
-    brain.inputs.matrix[0][0] = x;//x/width; 
-    brain.inputs.matrix[1][0] = y;//y/height; 
-    brain.inputs.matrix[2][0] = fi.x;//fi.x/width; 
-    brain.inputs.matrix[3][0] = fi.y;//fi.y/height; 
-    
-    println("{X : ",x,"}{ Y : ",y,"}{ CLst F.X : ",fi.x,"}{ Clst F.y : ",fi.y);
+
+    brain.inputs.matrix[0][0] = x; 
+    brain.inputs.matrix[1][0] = y; 
+    brain.inputs.matrix[2][0] = fi.x; 
+    brain.inputs.matrix[3][0] = fi.y; 
   
     Matrix outputs = brain.feedForward();
-    outputs.display();
 
-    float minimum = 0.8;
+    float minimum = 0.1;
 
     if(outputs.matrix[0][0] > minimum){
       move('l');
     }
-    else if(outputs.matrix[1][0] > minimum){
+    if(outputs.matrix[1][0] > minimum){
       move('r');
     }
-    else if(outputs.matrix[2][0] > minimum){
+    if(outputs.matrix[2][0] > minimum){
       move('u');
     }
-    else if(outputs.matrix[3][0] > minimum){
+    if(outputs.matrix[3][0] > minimum){
       move('d');
-    } 
+    }
+    //****************
+    //update();
+    //****************
   }
+  
+  
+  void doPredictedMovement(food f){
+
+    //Matrix m = calculateClosestFood(f);
+    
+    brain.inputs.matrix[0][0] = x; 
+    brain.inputs.matrix[1][0] = y; 
+    //brain.inputs.matrix[2][0] = m.matrix[0][0]; 
+    //brain.inputs.matrix[3][0] = m.matrix[1][0]; 
+    brain.inputs.matrix[2][0] = f.x;
+    brain.inputs.matrix[3][0] = f.y;
+    Matrix outputs = brain.feedForward();
+    if(outputs.matrix[0][0] > 0.5){
+      move('u');
+    }else if(outputs.matrix[1][0] > 0.5){
+      move('d');
+    }else if(outputs.matrix[2][0] > 0.5){
+      move('l');
+    }else if(outputs.matrix[3][0] > 0.5){
+      move('r');
+    }
+  }
+  
+  
+  
   //Calculates the closest food and returns it
   food calculateClosestFood(ArrayList<food> f){
     int closestIndex = 0;
@@ -154,7 +178,7 @@ class snake {
   }
 
   float distOfFood(food f){
-    return sqrt((x-f.x)*(x-f.x) + (y-f.y)*(y-f.y));
+    return sqrt((x-f.x)*(x-f.x) - (y-f.y)*(y-f.y));
   }
 
   float sqrt(float x){

@@ -69,7 +69,7 @@ class Matrix{
   Matrix mutate(){
     for(int i = 0;i < this.rows;i++){
       for(int j = 0;j < this.columns;j++){
-        if(random(0,1) < 0.3){
+        if(random(0,1) < 0.5){
           this.matrix[i][j] += randomGaussian()*0.5;
         }  
       }
